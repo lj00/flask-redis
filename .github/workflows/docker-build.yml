@@ -1,0 +1,16 @@
+name: Docker image buildx and push
+on: [push]
+jobs:
+  Docker-Build-Push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        run:  docker build -t xiaopeng163/flask-redis:latest .
+      - name: list docker image
+        run: docker image ls
+      - name: dockerhub login
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: push to dockerhub
+        run: docker image push xiaopeng163/flask-redis:latest 
